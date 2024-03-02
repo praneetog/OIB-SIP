@@ -1,0 +1,202 @@
+<html>
+<head>
+  <title>Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+
+  <!-- CSS for calculator design -->
+  <style>
+    .calculator {
+      width: 400px;
+      height: 600px;
+      margin: 50px auto;
+      background-color: #808A9F;
+      border: 2px solid gray;
+      border-radius: 10px;
+      box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .screen {
+      width: 360px;
+      height: 80px;
+      margin: 20px auto;
+      background-color: #f0f0f0;
+      border: 1px solid gray;
+      border-radius: 5px;
+      font-size: 36px;
+      text-align: right;
+      padding: 10px;
+    }
+
+    .buttons {
+      width: 360px;
+      height: 360px;
+      margin: 10px auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-gap: 10px;
+    }
+
+    .button {
+      width: 80px;
+      height: 80px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      background-color: #414361;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #2A2D43;
+    }
+
+    .button:active {
+      background-color: #2A2D43;
+    }
+
+    .button.clear {
+      background-color: #414361;
+    }
+
+    .button.clear:hover {
+      background-color: #2A2D43;
+    }
+
+    .button.clear:active {
+      background-color: #2A2D43;
+    }
+
+    .button.equal {
+      background-color: #414361;
+    }
+
+    .button.equal:hover {
+      background-color: #2A2D43;
+    }
+
+    .button.equal:active {
+      background-color: #2A2D43;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="screen" id="screen"></div>
+    <div class="buttons">
+      <button class="button clear" id="clear">C</button>
+      <button class="button" id="backspace">D</button>
+      <button class="button" id="divide">&divide;</button>
+      <button class="button" id="multiply">&times;</button>
+      <button class="button" id="seven">7</button>
+      <button class="button" id="eight">8</button>
+      <button class="button" id="nine">9</button>
+      <button class="button" id="subtract">&minus;</button>
+      <button class="button" id="four">4</button>
+      <button class="button" id="five">5</button>
+      <button class="button" id="six">6</button>
+      <button class="button" id="add">&plus;</button>
+      <button class="button" id="one">1</button>
+      <button class="button" id="two">2</button>
+      <button class="button" id="three">3</button>
+      <button class="button equal" id="equal">=</button>
+      <button class="button" id="zero">0</button>
+      <button class="button" id="decimal">.</button>
+    </div>
+  </div>
+
+  <!-- Javascript  -->
+
+  <script>
+    // For Screen
+    
+    const screen = document.getElementById("screen");
+
+    // For Buttons
+    const clear = document.getElementById("clear");
+    const backspace = document.getElementById("backspace");
+    const divide = document.getElementById("divide");
+    const multiply = document.getElementById("multiply");
+    const seven = document.getElementById("seven");
+    const eight = document.getElementById("eight");
+    const nine = document.getElementById("nine");
+    const subtract = document.getElementById("subtract");
+    const four = document.getElementById("four");
+    const five = document.getElementById("five");
+    const six = document.getElementById("six");
+    const add = document.getElementById("add");
+    const one = document.getElementById("one");
+    const two = document.getElementById("two");
+    const three = document.getElementById("three");
+    const equal = document.getElementById("equal");
+    const zero = document.getElementById("zero");
+    const decimal = document.getElementById("decimal");
+
+    // Variable to store the input
+    let input = "";
+
+    // Function to update the screen
+    function updateScreen() {
+      screen.textContent = input;
+    }
+
+    // Function to clear the input and screen
+    function clearInput() {
+      input = "";
+      updateScreen();
+    }
+
+    // Function to delete the last character of the input
+    function deleteInput() {
+      input = input.slice(0, -1);
+      updateScreen();
+    }
+
+    // Function to append a character to the input
+    function appendInput(char) {
+      input += char;
+      updateScreen();
+    }
+
+    // Function to display the result
+    function evaluateInput() {
+      try {
+
+        let result = eval(input);
+
+        // Check if the result is a valid number
+        if (isNaN(result) || !isFinite(result)) {
+          screen.textContent = "Error";
+        } else {
+          screen.textContent = result;
+        }
+      } 
+      catch (error) {
+        screen.textContent = "Error";
+      }
+    }
+
+    // Event Listener for buttons
+    clear.addEventListener("click", clearInput);
+    backspace.addEventListener("click", deleteInput);
+    divide.addEventListener("click", () => appendInput("/"));
+    multiply.addEventListener("click", () => appendInput("*"));
+    seven.addEventListener("click", () => appendInput("7"));
+    eight.addEventListener("click", () => appendInput("8"));
+    nine.addEventListener("click", () => appendInput("9"));
+    subtract.addEventListener("click", () => appendInput("-"));
+    four.addEventListener("click", () => appendInput("4"));
+    five.addEventListener("click", () => appendInput("5"));
+    six.addEventListener("click", () => appendInput("6"));
+    add.addEventListener("click", () => appendInput("+"));
+    one.addEventListener("click", () => appendInput("1"));
+    two.addEventListener("click", () => appendInput("2"));
+    three.addEventListener("click", () => appendInput("3"));
+    equal.addEventListener("click", evaluateInput);
+    zero.addEventListener("click", () => appendInput("0"));
+    decimal.addEventListener("click", () => appendInput("."));
+  </script>
+</body>
+</html>
