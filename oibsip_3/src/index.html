@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do App</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-3xl mx-auto py-20 px-4">
+    <h1 class="text-3xl font-semibold text-center mb-4">To-Do App</h1>
+
+    <div class="flex mb-4">
+        <input type="text" id="taskInput" class="flex-grow border rounded-l-md p-2" placeholder="Add new task">
+        <button onclick="addTask()" class="bg-blue-500 text-white px-4 rounded-r-md">Add Task</button>
+    </div>
+
+    <div class="">
+    <div class="mb-4">
+        <h2 class="text-xl font-semibold">Pending Tasks</h2>
+        <ul id="pendingTasks" class="mt-2">
+
+        </ul>
+    </div>
+
+    <div>
+        <h2 class="text-xl font-semibold">Completed Tasks</h2>
+        <ul id="completedTasks" class="mt-2">
+
+        </ul>
+    </div>
+    </div>
+</div>
+
+<script>
+
+    // To take input
+    function addTask() {
+        var taskInput = document.getElementById("taskInput");
+        var taskText = taskInput.value.trim();
+        if (taskText !== "") {
+            var task = {
+                text: taskText,
+                completed: false,
+                timestamp: new Date().toLocaleString()
+            };
+            tasks.push(task);
+            taskInput.value = "";
+            renderTasks();
+        }
+    }
+
+    // To render tasks
+    function renderTasks() {
+        var pendingTasksElement = document.getElementById("pendingTasks");
+        var completedTasksElement = document.getElementById("completedTasks");
+
+        pendingTasksElement.innerHTML = "";
+        completedTasksElement.innerHTML = "";
+
+        tasks.forEach(function(task, index) {
+            var taskElement = document.createElement("li");
+            taskElement.className = "border-b py-2 flex justify-between items-center";
+
+            var taskTextElement = document.createElement("span");
+            taskTextElement.textContent = task.text;
+            taskTextElement.className = task.completed ? "completed" : "";
+
+            var taskButtonContainer = document.createElement("div");
+
+            var completeButton = document.createElement("button");
+            completeButton.textContent = task.completed ? "Undo" : "Complete";
+            completeButton.className = "bg-green-500 text-white px-4 py-2 rounded mr-2";
+            completeButton.onclick = function() {
+                completeTask(index);
+            };
+
+            var editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.className = "bg-yellow-500 text-white px-4 py-2 rounded mr-2";
+            editButton.onclick = function() {
+                editTask(index);
+            };
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "bg-red-500 text-white px-4 py-2 rounded";
+            deleteButton.onclick = function() {
+                deleteTask(index);
+            };
+
+            taskButtonContainer.appendChild(completeButton);
+            taskButtonContainer.appendChild(editButton);
+            taskButtonContainer.appendChild(deleteButton);
+
+            taskElement.appendChild(taskTextElement);
+            taskElement.appendChild(taskButtonContainer);
+
+            if (task.completed) {
+                completedTasksElement.appendChild(taskElement);
+            } else {
+                pendingTasksElement.appendChild(taskElement);
+            }
+        });
+    }
+
+    // Function to mark a task as completed
+    function completeTask(index) {
+        tasks[index].completed = !tasks[index].completed;
+        renderTasks();
+    }
+
+    // Function to delete a task
+    function deleteTask(index) {
+        tasks.splice(index, 1);
+        renderTasks();
+    }
+
+    // Function to edit a task
+    function editTask(index) {
+        var newText = prompt("Edit task:", tasks[index].text);
+        if (newText !== null) {
+            tasks[index].text = newText.trim();
+            renderTasks();
+        }
+    }
+    // Initializing tasks
+    var tasks = [];
+
+    // Initializing rendering
+    renderTasks();
+</script>
+
+</body>
+</html>
